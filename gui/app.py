@@ -22,7 +22,7 @@ from core.updater import check_update_async, download_and_apply_async, UpdateInf
 
 # Import version and config
 try:
-    from main import VERSION, GITHUB_REPO
+    from version_info import VERSION, GITHUB_REPO
 except ImportError:
     VERSION = "unknown"
     GITHUB_REPO = ""

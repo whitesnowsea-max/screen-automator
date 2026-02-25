@@ -6,8 +6,7 @@ Screen Automator — 화면 자동화 도구
 import sys
 import os
 
-VERSION = "2.1.0"
-GITHUB_REPO = "whitesnowsea-max/screen-automator"
+from version_info import VERSION, GITHUB_REPO
 
 # Add project root to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
