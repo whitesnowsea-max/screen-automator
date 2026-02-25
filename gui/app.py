@@ -20,12 +20,22 @@ from gui.mix_dialog import MixGroupDialog
 
 from core.updater import check_update_async, download_and_apply_async, UpdateInfo
 
-# Import version and config
+# Import version and config (robust: try import, then direct file load)
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 try:
     from version_info import VERSION, GITHUB_REPO
 except ImportError:
-    VERSION = "unknown"
-    GITHUB_REPO = ""
+    try:
+        import importlib.util
+        _vinfo_path = os.path.join(_PROJECT_ROOT, "version_info.py")
+        _spec = importlib.util.spec_from_file_location("version_info", _vinfo_path)
+        _vinfo = importlib.util.module_from_spec(_spec)
+        _spec.loader.exec_module(_vinfo)
+        VERSION = _vinfo.VERSION
+        GITHUB_REPO = _vinfo.GITHUB_REPO
+    except Exception:
+        VERSION = "unknown"
+        GITHUB_REPO = ""
 
 
 # Platform-specific settings
