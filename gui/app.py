@@ -700,18 +700,9 @@ class ScreenAutomatorApp(QMainWindow):
                 QTimer.singleShot(0, self._toggle_monitor)
 
             hotkey_combo = "<ctrl>+<shift>+s" if _IS_WINDOWS else "<cmd>+<shift>+s"
-            hotkey = keyboard.HotKey(
-                keyboard.HotKey.parse(hotkey_combo),
-                on_activate,
-            )
-
-            def for_canonical(f):
-                return lambda k: f(hotkey._listener.canonical(k))
-
-            self._hotkey_listener = keyboard.Listener(
-                on_press=for_canonical(hotkey.press),
-                on_release=for_canonical(hotkey.release),
-            )
+            self._hotkey_listener = keyboard.GlobalHotKeys({
+                hotkey_combo: on_activate,
+            })
             self._hotkey_listener.start()
         except Exception as e:
             print(f"단축키 등록 실패: {e}")
